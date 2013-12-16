@@ -1,0 +1,30 @@
+Options +FollowSymLinks
+
+<IfModule mod_rewrite.c>
+	
+	RewriteEngine On
+	
+	# If your web application is not in webserver root folder change RewriteBase directive.
+	# If, for example, the url to your application is http://someserver.com/webroot/myapp/
+	# uncomment and change this to path where is your index.php script (/webroot/myapp/)
+	RewriteBase /webroot/psa1/skeleton_application/
+	
+	
+	# scripts in app/ folder should not be directly accessible
+	RewriteRule ^app/.*$ index.php [NC,L]
+	
+	
+	# is a regular file
+	RewriteCond %{REQUEST_FILENAME} -s [OR]
+	# is a symbolic link
+	RewriteCond %{REQUEST_FILENAME} -l [OR]
+	# is a directory
+	RewriteCond %{REQUEST_FILENAME} -d
+	
+	
+	# NC - case insensitive, L - last rule
+	RewriteRule ^.*$ - [NC,L] # NO substitution
+	
+	RewriteRule ^.*$ index.php [NC,L]
+	
+</IfModule>
