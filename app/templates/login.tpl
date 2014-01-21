@@ -1,25 +1,17 @@
-<div class="login_page_content"> {$header_main}
-	<form action="{$psa_result->basedir_web}/" method="post" name="login_form" id="login_form">
-		<table width="100%" border="0" cellpadding="5" cellspacing="0" style="margin-top:10px;">
-			<tr>
-				<td width="1%">Username:</td>
-				<td><input tabindex="1" name="login_user" type="text" id="login_user" size="25" /></td>
-				<td class="login_enter" rowspan="2" align="right" valign="middle" nowrap="nowrap">
-					<input tabindex="3" class="login_btt" id="login_btt" type="submit" value="Enter &gt;&gt;"/>
-				</td>
-			</tr>
-			<tr>
-				<td>Password:</td>
-				<td><input tabindex="2" name="login_pass" type="password" id="login_pass" size="25" /></td>
-			</tr>
-			<tr>
-				<td colspan="3" align="center" style="font-size:8pt;color:#437048;">{$error}</td>
-			</tr>
-		</table>
+<div class="container container-signin">
+	<form class="form-signin" role="form" action="{$psa_result->basedir_web}/" method="post">
+		<h2 class="form-signin-heading">{$psa_result->html_page_title} <span id="header_ver">ver. {$psa_result->app_version}</span></h2>
+		
+		<input type="text" name="login_user" class="form-control" placeholder="Username" required autofocus>
+		
+		<input type="password" name="login_pass" class="form-control" placeholder="Password" required>
+		
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 	</form>
+	
+	{if $error}
+	<div class="alert alert-danger error-signin">
+		{$error}
+	</div>
+	{/if}
 </div>
-{literal}
-<script type="text/javascript">
-	$('#login_user').focus();
-</script>
-{/literal}

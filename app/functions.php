@@ -19,6 +19,7 @@ function check_login(){
 		}
 		// Login user with username and password
 		else if(isset($_POST['login_user']) && $_POST['login_user'] && isset($_POST['login_pass']) && $_POST['login_pass']){
+
 			$user = new User($_POST['login_user']);
 			try{
 				$user->authorize($_POST['login_pass']);

@@ -1,8 +1,10 @@
-<div class="error">
-Exception:  {$exception.type}
-<div class="error_desc">
-Message:  {$exception.msg}
-{if $exception.code}<br />Code:  {$exception.code}{/if}
+<div class="alert alert-danger">
+	<p>Exception:  {$exception.type}</p>
+	<p>
+		Message:  {$exception.msg}
+		{if $exception.code}
+		<br />
+		Code:  {$exception.code}
+		{/if}
+	</p>
 </div>
-</div>
-<div class="clear_float"></div>

@@ -16,4 +16,6 @@ $CFG['js_files'][] = 'js/jquery-1.10.2.min.js';
 $CFG['js_files'][] = 'js/functions.js';
 
 // css files to load.
+$CFG['css_files'][] = 'lib/bootstrap-3.0.3-dist/css/bootstrap.min.css';
+$CFG['css_files'][] = 'lib/bootstrap-3.0.3-dist/css/bootstrap-theme.min.css';
 $CFG['css_files'][] = 'css/styles.css';
