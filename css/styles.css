@@ -5,6 +5,10 @@
 	font-size: 14pt;
 	font-weight: bold;
 }
+#main_container {
+	padding: 0 15px;
+	width: 100%;
+}
 .error-signin{
 	max-width: 500px;
 	margin: 0 auto;

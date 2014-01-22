@@ -26,7 +26,7 @@
 			{if !$ajax_form}
 			<button type="submit" class="btn btn-default">Calculate sum</button>
 			{else}
-			<button type="button" class="btn btn-default" onclick="sum_ajax();">Calculate sum with ajax</button>
+			<button type="button" class="btn btn-default" onclick="sum_ajax();">Calculate sum</button>
 			{/if} 
 		</div>
 	</div>
