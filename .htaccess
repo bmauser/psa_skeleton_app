@@ -7,7 +7,7 @@ Options +FollowSymLinks
 	# If your web application is not in webserver root folder change RewriteBase directive.
 	# If, for example, the url to your application is http://someserver.com/webroot/myapp/
 	# uncomment and change this to path where is your index.php script (/webroot/myapp/)
-	RewriteBase /webroot/psa1/skeleton_application/
+	RewriteBase /webroot/psa1/skeleton_application_sso/
 	
 	
 	# scripts in app/ folder should not be directly accessible

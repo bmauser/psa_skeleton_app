@@ -19,3 +19,13 @@ $CFG['js_files'][] = 'js/functions.js';
 $CFG['css_files'][] = 'lib/bootstrap-3.0.3-dist/css/bootstrap.min.css';
 $CFG['css_files'][] = 'lib/bootstrap-3.0.3-dist/css/bootstrap-theme.min.css';
 $CFG['css_files'][] = 'css/styles.css';
+
+// Available login methods.
+$CFG['login_method']['local_user'] = true;
+$CFG['login_method']['aaieduhr_sso'] = true;
+
+
+// Include file that will override settings in this file.
+if(file_exists(APP_BASE_DIR . '/config_override.php'))
+	include_once APP_BASE_DIR . '/config_override.php';
+
