@@ -7,8 +7,7 @@ $(document).ready(function () {
 	
 	$(document).ajaxError(function(event, request, settings){
 		
-		// redirect
-		if(request.error().status == '310')
+		if(request.error().status == '310') // ajax redirect
 			window.location = request.responseText;
 		else if(request.responseText)
 			alert(request.responseText);
