@@ -96,7 +96,7 @@ class Main_View extends Psa_Smarty_View{
 		if(!headers_sent()){
 			// is ajax request
 			if(@$this->psa_result->ajax_request){
-				header('HTTP/1.1 510 redirect');
+				header('HTTP/1.1 310 redirect');
 				echo $url;
 			}
 			else{
