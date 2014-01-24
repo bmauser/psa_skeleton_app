@@ -6,7 +6,10 @@
 $(document).ready(function () {
 	
 	$(document).ajaxError(function(event, request, settings){
-		if(request.responseText)
+		
+		if(request.error().status == '310') // ajax redirect
+			window.location = request.responseText;
+		else if(request.responseText)
 			alert(request.responseText);
 		else
 			alert("Error requesting page: " + settings.url);

@@ -5,7 +5,7 @@
  *
  * Also checks username and password if are sent from login form and tries to authorize the user.
  * This function will be called in most actions so I put it here in global scope.
- * In case of invalid authorization <kbd>Unauthorized_Exception</kbd> will be thrown.
+ * In case of invalid authorization Unauthorized_Exception will be thrown.
  *
  * @throws Unauthorized_Exception
  */
@@ -17,6 +17,7 @@ function check_login(){
 			$user = new User($_SESSION['psa_current_user_data']['id']);
 			$user->restore();
 		}
+
 		// Login user with username and password
 		else if(isset($_POST['login_user']) && $_POST['login_user'] && isset($_POST['login_pass']) && $_POST['login_pass']){
 
@@ -39,6 +40,6 @@ function check_login(){
 
 	}
 	catch (Exception $e){
-		throw new Unauthorized_Exception("Login needed.", false);
+		throw new Unauthorized_Exception('Login needed.');
 	}
 }

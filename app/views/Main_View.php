@@ -16,8 +16,7 @@ class Main_View extends Psa_Smarty_View{
 			$this->psa_smarty->assign('error', 'You entered invalid username or password.');
 		}
 
-		$this->psa_smarty->assign('header_main', $this->psa_smarty->fetch('header_main.tpl'));
-		$this->psa_smarty->assign('content_main', $this->psa_smarty->fetch("login.tpl"));
+		$this->psa_smarty->assign('content_main', $this->psa_smarty->fetch('login.tpl'));
 	}
 
 
@@ -76,7 +75,17 @@ class Main_View extends Psa_Smarty_View{
 
 		$url = $this->psa_registry->basedir_web . '/' . $url;
 
-		header('Location: ' . $url);
+		if(!headers_sent()){
+			// is ajax request
+			if(@$this->psa_result->ajax_request){
+				header('HTTP/1.1 310 redirect');
+				echo $url;
+			}
+			else{
+				header('Location: ' . $url);
+			}
+		}
+
 		exit;
 	}
 

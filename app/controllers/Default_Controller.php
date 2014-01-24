@@ -10,10 +10,10 @@ class Default_Controller{
 	 * Default action
 	 */
 	function default_action(){
-		
+
 		// ensure that user is logged in
 		check_login();
-		
+
 		$main_view = new Main_View();
 		$main_view->generate_html();
 	}
@@ -33,19 +33,19 @@ class Default_Controller{
 	/**
 	 * Logout
 	 */
-	function logout_action(){
-		
+	function logout_action($msg_type = null){
+
 		// kill session and delete cookie
 		$_SESSION = array();
 		if(isset($_COOKIE[session_name()])){
 			setcookie(session_name(), '', time() - 42000, '/');
 			$_COOKIE = array();
 		}
-		
+
 		session_destroy();
-		
+
 		// go to login
-		$this->login_action();
+		$this->login_action($msg_type);
 	}
 
 
@@ -55,10 +55,10 @@ class Default_Controller{
 	function sum_action(){
 
 		check_login();
-		
+
 		$sum_view = new Sum_View();
 		$sum_view->sum();
-		
+
 		$main_view = new Main_View();
 		$main_view->generate_html();
 	}
@@ -70,10 +70,10 @@ class Default_Controller{
 	function sumajax_action(){
 
 		check_login();
-		
+
 		$sum_view = new Sum_View();
 		$sum_view->sum_ajax();
-		
+
 		$main_view = new Main_View();
 		$main_view->generate_html();
 	}
@@ -85,13 +85,13 @@ class Default_Controller{
 	function calculate_action(){
 
 		check_login();
-		
+
 		$sum = new Example();
 		$sum_result = $sum->sum($_POST['num1'], $_POST['num2']);
-		
+
 		$sum_view = new Sum_View();
 		$sum_view->sum($sum_result);
-		
+
 		$main_view = new Main_View();
 		$main_view->generate_html();
 	}
@@ -103,13 +103,13 @@ class Default_Controller{
 	function calculateajax_action(){
 
 		check_login();
-		
+
 		$sum = new Example();
 		$sum_result = $sum->sum($_POST['num1'], $_POST['num2']);
-		
+
 		$sum_view = new Sum_View();
 		$sum_view->sum_result_ajax($sum_result);
-		
+
 		$main_view = new Main_View();
 		$main_view->generate_html();
 	}
