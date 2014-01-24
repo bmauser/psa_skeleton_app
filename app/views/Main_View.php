@@ -15,6 +15,14 @@ class Main_View extends Psa_Smarty_View{
 		if($msg_type == 'unsuccessful'){
 			$this->psa_smarty->assign('error', 'You entered invalid username or password.');
 		}
+		// SSO unpermited user
+		else if($msg_type == 'unpermittedsso'){
+			$this->psa_smarty->assign('error', 'You have successfully signed in with AAI@EduHr SSO service, but access to this application is denied.<br/> Click <a href="' . $this->psa_registry->base_url . '/default/ssologout">here</a> to sign out from AAI@EduHr SSO service.');
+		}
+		// SSO single logout
+		else if($msg_type == 'singlelogout'){
+			$this->psa_smarty->assign('error', 'You have been logged out by AAI@EduHr single logout request probably from some other service.');
+		}
 
 		// show AAI login link
 		if(isset($this->psa_registry->CFG['login_method']['aaieduhr_sso']) && $this->psa_registry->CFG['login_method']['aaieduhr_sso']){
@@ -59,8 +67,11 @@ class Main_View extends Psa_Smarty_View{
 			// asign page header and main menu
 			$this->psa_smarty->assign('header_main', $this->psa_smarty->fetch('header_main.tpl'));
 
-			if(isset($this->psa_registry->user->username)) // do not show menu if user is not logged in
+			if(isset($this->psa_registry->user->username)){ // do not show menu if user is not logged in
+				if(isset($this->psa_registry->user->sso) && $this->psa_registry->user->sso)
+					$this->psa_smarty->assign('sso_user', 1);
 				$this->psa_smarty->assign('layout_left', $this->psa_smarty->fetch('menu_main.tpl'));
+			}
 
 			// html page main content
 			if(!$this->psa_smarty->getTemplateVars('content_main')){
@@ -82,7 +93,17 @@ class Main_View extends Psa_Smarty_View{
 
 		$url = $this->psa_registry->basedir_web . '/' . $url;
 
-		header('Location: ' . $url);
+		if(!headers_sent()){
+			// is ajax request
+			if(@$this->psa_result->ajax_request){
+				header('HTTP/1.1 510 redirect');
+				echo $url;
+			}
+			else{
+				header('Location: ' . $url);
+			}
+		}
+
 		exit;
 	}
 

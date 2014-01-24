@@ -14,6 +14,7 @@ function check_login($aaieduhr_sso = false){
 	try{
 
 		$psa_registry = Psa_Registry::get_instance();
+		$just_authorized = 0;
 
 		// Check if we have user id in the session. This means that user is already logged in.
 		if(isset($_SESSION['psa_current_user_data']['id']) && $_SESSION['psa_current_user_data']['id']){
@@ -27,6 +28,7 @@ function check_login($aaieduhr_sso = false){
 			$user = new User($_POST['login_user']);
 			try{
 				$user->authorize($_POST['login_pass']);
+				$just_authorized = 1;
 			}
 			catch(Psa_User_Exception $e){
 				Psa_Result::get_instance()->unsuccessful_authorize = true;
@@ -50,13 +52,13 @@ function check_login($aaieduhr_sso = false){
 			$sso_attributes = $as->getAttributes();
 
 			if(!isset($sso_attributes['hrEduPersonUniqueID'][0]))
-				throw new SSO_Exception('No valid result from SSO service.', 5);
+				throw new SSO_Exception('No valid result from SSO service.');
 
 
 			// if SSO user is not allowed
 			if(!is_allowed_sso_user($sso_attributes['hrEduPersonUniqueID'][0])){
-				$psa_result->unpermitted_sso_user = $sso_attributes['hrEduPersonUniqueID'][0];
-				throw new SSO_Exception('Unpermited SSO user ' . $sso_attributes['hrEduPersonUniqueID'][0], 3);
+				Psa_Result::get_instance()->unpermitted_sso_user = $sso_attributes['hrEduPersonUniqueID'][0];
+				throw new SSO_Exception('Unpermited SSO user ' . $sso_attributes['hrEduPersonUniqueID'][0]);
 			}
 
 			try{
@@ -75,22 +77,38 @@ function check_login($aaieduhr_sso = false){
 					$user->authorize();
 				}
 				catch(Psa_User_Exception $e){
-					throw new SSO_Exception('Error creating new user ' . $sso_attributes['hrEduPersonUniqueID'][0], 2);
+					throw new SSO_Exception('Error creating new user ' . $sso_attributes['hrEduPersonUniqueID'][0]);
 				}
 			}
 
 			$user->save_last_login_time();
+			$just_authorized = 1;
 		}
 
 		else
 			throw new Exception();
+
+
+		// SSO logout check
+		if(isset($user->sso) && $user->sso && !$just_authorized){
+
+			// check if we have AAI@EduHr single logout
+			require_once($psa_registry->CFG['simplesamlphp']['include']);
+			$as = new SimpleSAML_Auth_Simple($psa_registry->CFG['simplesamlphp']['authentication_source']);
+
+			// check if SSO session is valid
+			if(!$as->isAuthenticated()){
+				Psa_Result::get_instance()->single_logout = true;
+				throw new SSO_Exception('AAI@EduHr single logout.');
+			}
+		}
 
 		// put reference to user object into the registry object
 		$psa_registry->user = $user;
 
 	}
 	catch (Exception $e){
-		throw new Unauthorized_Exception('Login needed.', false);
+		throw new Unauthorized_Exception('Login needed.');
 	}
 }
 

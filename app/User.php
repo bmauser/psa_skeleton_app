@@ -11,4 +11,12 @@
  */
 class User extends Psa_User {
 
+	public $id;
+	public $username;
+	public $sso;
+
+
+	public function __construct($user_id_or_username){
+		parent::__construct($user_id_or_username, array('id', 'username', 'sso'));
+	}
 }

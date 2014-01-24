@@ -47,8 +47,12 @@ class Main extends Psa_Router{
 		// redirect to login screen if Unauthorized_Exception is raised
 		catch(Unauthorized_Exception $e){
 			$main_view = new Main_View();
-			if($this->psa_result->unsuccessful_authorize)
+			if(isset($this->psa_result->unsuccessful_authorize))
 				$main_view->redirect('default/login/unsuccessful');
+			else if(isset($this->psa_result->unpermitted_sso_user))
+				$main_view->redirect('default/login/unpermittedsso');
+			else if(isset($this->psa_result->single_logout))
+				$main_view->redirect('default/logout/singlelogout');
 			else
 				$main_view->redirect('default/login');
 		}

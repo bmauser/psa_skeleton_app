@@ -33,7 +33,7 @@ class Default_Controller{
 	/**
 	 * Logout
 	 */
-	function logout_action(){
+	function logout_action($msg_type = null){
 
 		// kill session and delete cookie
 		$_SESSION = array();
@@ -45,7 +45,18 @@ class Default_Controller{
 		session_destroy();
 
 		// go to login
-		$this->login_action();
+		$this->login_action($msg_type);
+	}
+
+
+	/**
+	 * SSO Logout
+	 */
+	function ssologout_action(){
+		$CFG = Psa_Registry::get_instance()->CFG;
+		require_once($CFG['simplesamlphp']['include']);
+		$as = new SimpleSAML_Auth_Simple($CFG['simplesamlphp']['authentication_source']);
+		$as->logout($CFG['simplesamlphp']['after_sso_logout_url']);
 	}
 
 
