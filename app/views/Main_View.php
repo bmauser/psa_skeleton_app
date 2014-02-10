@@ -71,7 +71,7 @@ class Main_View extends Psa_Smarty_View{
 	 *
 	 * @param string $url
 	 */
-	function redirect($url = null){
+	function redirect($url = ''){
 
 		$url = $this->psa_registry->basedir_web . '/' . $url;
 
