@@ -45,7 +45,8 @@ class Default_Controller{
 		session_destroy();
 
 		// go to login
-		$this->login_action($msg_type);
+		$main_view = new Main_View();
+		$main_view->redirect("default/login/" . $msg_type);
 	}
 
 
