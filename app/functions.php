@@ -17,8 +17,8 @@ function check_login($aaieduhr_sso = false){
 		$just_authorized = 0;
 
 		// Check if we have user id in the session. This means that user is already logged in.
-		if(isset($_SESSION['psa_current_user_data']['id']) && $_SESSION['psa_current_user_data']['id']){
-			$user = new User($_SESSION['psa_current_user_data']['id']);
+		if(isset($_SESSION['psa_current_user_data']['username']) && $_SESSION['psa_current_user_data']['username']){
+			$user = new User($_SESSION['psa_current_user_data']['username']);
 			$user->restore();
 		}
 
