@@ -98,9 +98,13 @@ class Main_View extends Psa_Smarty_View{
 	function uncaught_exception($e){
 
 		// get data from exception
-		$exception['code'] = $e->getCode();
-		$exception['msg'] = $e->getMessage();
 		$exception['type'] = get_class($e);
+
+		if(isset($this->psa_registry->PSA_CFG['develop_mode']) && $this->psa_registry->PSA_CFG['develop_mode']){
+			$exception['code'] = $e->getCode();
+			$exception['trace'] = $e->getTraceAsString();
+			$exception['msg'] = $e->getMessage();
+		}
 
 		// if this is ajax request
 		if(isset($this->psa_result->ajax_request) && $this->psa_result->ajax_request){
